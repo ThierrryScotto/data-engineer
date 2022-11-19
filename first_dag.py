@@ -11,7 +11,7 @@ from airflow.operators.bash import BashOperator
 def captura_conta_dados():
   url = "https://data.cityofnewyork.us/resource/rc75-m7u3.json"
   response = requests.get(url)
-  df = pd.DataFrame(json.load(response.content))
+  df = pd.DataFrame(json.loads(response.content))
   qtd = len(df.index)
   return qtd
 
@@ -20,8 +20,8 @@ def e_valido(ti):
   qtd = ti.xcom_pull(task_ids = 'captura_conta_dados') # usada para compartilhar informacoes entre as tasks
   
   if (qtd > 1000):
-    return 'valida'
-  return 'nvalida'
+    return 'valido'
+  return 'nvalido'
 
 # id tem que ser um indentificado unico
 tag_id = 'tutorial_dag'
